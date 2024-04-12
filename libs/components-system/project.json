@@ -1,0 +1,9 @@
+{
+  "name": "components-system",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/components-system/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project components-system --web",
+  "targets": {}
+}
