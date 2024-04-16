@@ -12,33 +12,31 @@ Run `pnpx nx serve web` to start the development server. Happy coding!
 
 Run `pnpx nx run web:build` to build the application. The build artifacts are stored in the output directory (`dist/apps/web`), ready to be deployed.
 
-## Set up CI!
+## CI
 
-Nx comes with local caching already built-in (check your `nx.json`). On CI you might want to go a step further.
+Can you see the CI en each Pull Request: https://github.com/miguelcast/test-popups/pulls?q=is:pr+is:closed
 
-- [Set up remote caching](https://nx.dev/features/share-your-cache)
-- [Set up task distribution across multiple machines](https://nx.dev/nx-cloud/features/distribute-task-execution)
-- [Learn more how to setup CI](https://nx.dev/recipes/ci)
+And the configuration is in the file `.github/workflows/ci.yml` 
 
 ## Explore the project graph
 
 Run `pnpx nx graph` to show the graph of the workspace.
 It will show tasks that you can run with Nx.
 
-## Connect with us!
-
-- [Join the community](https://nx.dev/community)
-- [Subscribe to the Nx Youtube Channel](https://www.youtube.com/@nxdevtools)
-- [Follow us on Twitter](https://twitter.com/nxdevtools)
 
 ## TODO
  - [x] Initial Setup
+ - [x] Create components-system project
+ - [x] Create base components Board, Containers and Header
+ - [x] Zustand setup
+ - [x] Create popups store
  - [x] Add and Remove Popups
  - [x] Drag And Drop Setup
  - [x] Horizontal Drop Popups
  - [x] Vertical Drop Popups
  - [x] Deploy to Vercel or Netflix
  - [x] Testing
+ - [x] Create external component(A and B) for the popups
  - [ ] Resize Popups width
  - [ ] Resize Popups height
  - [ ] Use something like clsx to merge classes
