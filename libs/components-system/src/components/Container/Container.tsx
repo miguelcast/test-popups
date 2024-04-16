@@ -40,6 +40,7 @@ function Container({ id, name, row, col, children }: Props) {
             <button
               onClick={() => removeContainer(id)}
               className="bg-white px-2 rounded-full w-6 h-6 flex items-center justify-center font-bold"
+              aria-label="Close Popup button"
             >
               X
             </button>

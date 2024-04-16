@@ -17,7 +17,7 @@
     "paths": {
       "@test-popups/component-a": ["libs/component-a/src/index.ts"],
       "@test-popups/component-b": ["libs/component-b/src/index.ts"],
-      "@test-popups/components-system": ["libs/components-system/src/index.ts"]
+      "@test-popups/components-system": ["libs/components-system/src/index.ts"],
     }
   },
   "exclude": ["node_modules", "tmp"]
