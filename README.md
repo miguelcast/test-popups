@@ -37,10 +37,10 @@ It will show tasks that you can run with Nx.
  - [x] Drag And Drop Setup
  - [x] Horizontal Drop Popups
  - [x] Vertical Drop Popups
+ - [x] Deploy to Vercel or Netflix
+ - [x] Testing
  - [ ] Resize Popups width
  - [ ] Resize Popups height
- - [ ] Testing
- - [ ] Deploy to Vercel or Netflix
  - [ ] Use something like clsx to merge classes
  - [ ] Fixes Popups
  - [ ] Refactor updateContainerPosition
