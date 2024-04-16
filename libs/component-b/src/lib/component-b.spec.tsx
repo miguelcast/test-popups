@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import Board from './Board';
+import ComponentB from './component-b';
 
-describe('Board', () => {
+describe('ComponentB', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Board containersConfig={[]} />);
+    const { baseElement } = render(<ComponentB />);
     expect(baseElement).toBeTruthy();
   });
 });

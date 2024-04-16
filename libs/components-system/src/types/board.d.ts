@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ElementType, ReactNode } from 'react';
 
 export type PositionContainer = {
   col: number;
@@ -13,7 +13,7 @@ export type SizeContainer = {
 export type ContainerConfig = {
   id: string;
   name: string;
-  Content: ReactNode | undefined;
+  Content: ElementType;
   position: PositionContainer;
   size?: SizeContainer;
 };

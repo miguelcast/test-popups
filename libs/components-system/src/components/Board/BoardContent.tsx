@@ -44,7 +44,7 @@ function BoardContent() {
                     row={position?.row || row}
                     col={position?.col || col}
                   >
-                    {Content}
+                    <Content />
                   </Container>
                 </Fragment>
               ))}

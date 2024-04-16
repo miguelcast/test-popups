@@ -32,7 +32,7 @@ function Container({ id, name, row, col, children }: Props) {
         ref={dragRef}
         data-id={id}
         draggable
-        className={`relative min-h-full flex-1 rounded-md bg-white border-solid border-2 border-gray-400 transition-all ${dragContainerStyles}`}
+        className={`relative min-h-full flex-1 flex flex-col rounded-md bg-white border-solid border-2 border-gray-400 transition-all ${dragContainerStyles}`}
       >
         <div className="bg-blue-400 py-1 px-4 flex items-center justify-between cursor-grab active:cursor-grabbing">
           <h2 className="font-bold">{name}</h2>
@@ -45,7 +45,7 @@ function Container({ id, name, row, col, children }: Props) {
             </button>
           </div>
         </div>
-        <div className="p-4">{children}</div>
+        <div className="w-full flex-1">{children}</div>
       </section>
     </>
   );
