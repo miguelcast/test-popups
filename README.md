@@ -62,4 +62,14 @@ It will show tasks that you can run with Nx.
 - [Follow us on Twitter](https://twitter.com/nxdevtools)
 
 ## TODO
- -[ ] Use something like clsx to merge classes
+ - [x] Initial Setup
+ - [x] Add and Remove Popups
+ - [x] Drag And Drop Setup
+ - [x] Horizontal Drop Popups
+ - [x] Vertical Drop Popups
+ - [ ] Resize Popups width
+ - [ ] Resize Popups height
+ - [ ] Testing
+ - [ ] Deploy to Vercel or Netflix
+ - [ ] Use something like clsx to merge classes
+ - [ ] Fixes Popups

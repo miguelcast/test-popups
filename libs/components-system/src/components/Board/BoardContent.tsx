@@ -26,7 +26,11 @@ function BoardContent() {
             <div key={row} className="min-h-[200px] min-w-[200px] w-full flex">
               {rowContainer.map(({ id, name, Content, position }, col) => (
                 <Fragment key={id}>
-                  <VerticalSeparator row={row} col={col} />
+                  <VerticalSeparator
+                    row={row}
+                    col={col}
+                    containersInRow={rowContainer.length}
+                  />
                   <Container
                     key={id}
                     id={id}
@@ -38,7 +42,11 @@ function BoardContent() {
                   </Container>
                 </Fragment>
               ))}
-              <VerticalSeparator row={row} col={rowContainer.length} />
+              <VerticalSeparator
+                row={row}
+                col={rowContainer.length}
+                containersInRow={rowContainer.length}
+              />
             </div>
           </Fragment>
         ))}

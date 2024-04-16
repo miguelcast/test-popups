@@ -21,88 +21,155 @@ export const createBoardStore = (initialState: Containers) =>
     baseContainer: [...initialState] || [],
     clearContainers: () => set(() => ({ containers: [] })),
     addContainer: (container) =>
-      set((state) => ({ containers: [...state.containers, container] })),
-    removeContainer: (id) =>
       set((state) => ({
-        containers: state.containers?.filter(
-          (containerItem) => containerItem.id !== id
-        ),
+        containers: [
+          ...state.containers,
+          { ...container, position: { row: state.containers.length, col: 0 } },
+        ],
       })),
+    removeContainer: (id) =>
+      set((state) => {
+        const containerToRemoveIndex = state.containers.findIndex(
+          (container) => container.id === id
+        );
+
+        const containerToRemove = state.containers[containerToRemoveIndex];
+
+        const isInAColumn =
+          state.containers.filter((container) => {
+            return container.position?.row === containerToRemove.position?.row;
+          }).length > 1;
+
+        const newContainers = state.containers?.filter(
+          (containerItem) => containerItem.id !== id
+        );
+
+        return {
+          containers: newContainers.map((container) => {
+            if (
+              isInAColumn &&
+              container.position?.row === containerToRemove.position?.row &&
+              container.position?.col > containerToRemove.position?.col
+            ) {
+              container.position.col -= 1;
+            } else if (
+              !isInAColumn &&
+              container.position?.row > containerToRemove.position?.row
+            ) {
+              container.position.row -= 1;
+            }
+
+            return container;
+          }),
+        };
+      }),
     changePosition: (id, row, col) =>
       set((state) => {
-        const containerIndex = state.containers.findIndex(
-          (containerItem) => containerItem.id === id
+        let newContainers = [...state.containers];
+        const containerToMoveIndex = newContainers.findIndex(
+          (container) => container.id === id
         );
+        const containerToMove = {
+          ...newContainers[containerToMoveIndex],
+          position: { ...newContainers[containerToMoveIndex].position },
+        };
 
-        if (containerIndex === -1) {
-          return state;
-        }
-
-        const currentContainer = state.containers[containerIndex];
-
-        const sortedContainers = state.containers.filter(
-          (container) => container.id !== id
-        );
-
-        const currentPosition =
-          currentContainer?.position?.row || containerIndex;
-        const direction = currentPosition > row ? 'UP' : 'DOWN';
-        const range = [
-          direction === 'UP' ? row : containerIndex + 1,
-          direction === 'UP' ? currentPosition : row - 1,
-        ];
-
-        sortedContainers.splice(
-          direction === 'UP' ? row : row - 1,
-          0,
-          currentContainer
-        );
-
-        const newContainers = sortedContainers.map((container, index) => {
-          const oldRow = state.containers.findIndex(
-            (c) => c.id === container.id
+        newContainers.sort((containerA, containerB) => {
+          if (containerA.position?.row === containerB.position?.row) {
+            return (
+              Number(containerA.position?.col) -
+              Number(containerB.position?.col)
+            );
+          }
+          return (
+            Number(containerA.position?.row) - Number(containerB.position?.row)
           );
-
-          if (container.id === id) {
-            return {
-              ...container,
-              position: {
-                row: direction === 'UP' ? row : row - 1,
-                col: col ?? container.position?.col ?? 0,
-              },
-            };
-          }
-
-          if (oldRow >= range[0] && oldRow <= range[1]) {
-            const newRow = oldRow
-              ? direction === 'UP'
-                ? oldRow + 1
-                : oldRow - 1
-              : index;
-
-            return {
-              ...container,
-              position: {
-                row: newRow,
-                col: container.position?.col,
-              },
-            };
-          }
-
-          if (!container.position?.row || !container.position?.col) {
-            return {
-              ...container,
-              position: {
-                row: container.position?.row ?? index,
-                col: container.position?.col ?? 0,
-              },
-            };
-          }
-
-          return container;
         });
 
-        console.log(newContainers);
+        const fromColumn =
+          state.containers.filter((container) => {
+            return container.position?.row === containerToMove.position?.row;
+          }).length > 1;
+
+        const direction = containerToMove.position.row > row ? 'UP' : 'DOWN';
+
+        if (row !== containerToMove.position.row) {
+          newContainers = newContainers.map((container) => {
+            debugger;
+            if (container.id === id) {
+              let newRow = (container.position.row =
+                direction === 'DOWN' ? row - 1 : row);
+
+              let newCol = col ?? container.position.col;
+
+              if (fromColumn) {
+                newRow = row;
+                if (col === undefined) {
+                  newCol = 0;
+                }
+              }
+
+              container.position.row = newRow;
+              container.position.col = newCol;
+              return container;
+            }
+
+            if (col !== undefined && Number.isInteger(col)) {
+              if (
+                container.position.row === row &&
+                container.position.col >= col
+              ) {
+                container.position.col += 1;
+              }
+
+              if (
+                fromColumn &&
+                container.position.row === containerToMove.position?.row &&
+                container.position.col > containerToMove.position.col
+              ) {
+                container.position.col -= 1;
+              }
+            }
+
+            if (
+              col === undefined &&
+              !fromColumn &&
+              direction === 'DOWN' &&
+              container.position.row < row &&
+              container.position.row >= containerToMove.position.row
+            ) {
+              container.position.row -= 1;
+            }
+
+            if (
+              col === undefined &&
+              !fromColumn &&
+              direction === 'UP' &&
+              container.position.row >= row &&
+              container.position.row < containerToMove.position.row
+            ) {
+              container.position.row += 1;
+            }
+
+            if (
+              Number.isInteger(col) &&
+              !fromColumn &&
+              container.position.row >= containerToMove.position.row
+            ) {
+              container.position.row -= 1;
+            }
+
+            if (
+              col === undefined &&
+              fromColumn &&
+              container.position.row >= row
+            ) {
+              container.position.row += 1;
+            }
+
+            return container;
+          });
+        }
 
         return { containers: newContainers };
       }),

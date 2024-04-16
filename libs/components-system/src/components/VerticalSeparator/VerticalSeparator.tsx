@@ -8,9 +8,10 @@ import { type DragItem } from '../../types/board.d';
 type Props = {
   row: number;
   col: number;
+  containersInRow: number;
 };
 
-function VerticalSeparator({ row, col }: Props) {
+function VerticalSeparator({ row, col, containersInRow }: Props) {
   const { changePosition } = usePopupsActions();
 
   const [{ isOver, canDrop }, dropRef] = useDrop<
@@ -24,9 +25,7 @@ function VerticalSeparator({ row, col }: Props) {
         isOver: Boolean(monitor.isOver()),
         canDrop: Boolean(monitor.canDrop()),
       }),
-      canDrop: (item) =>
-        (item.row !== row && item.col === col) ||
-        (item.row !== row && item.col + 1 === col),
+      canDrop: (item) => item.row !== row && containersInRow < 3,
       drop: (item) => {
         changePosition(item?.id, row, col);
         return undefined;
