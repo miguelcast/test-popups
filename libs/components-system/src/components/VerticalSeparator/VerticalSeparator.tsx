@@ -25,13 +25,13 @@ function VerticalSeparator({ row, col, containersInRow }: Props) {
         isOver: Boolean(monitor.isOver()),
         canDrop: Boolean(monitor.canDrop()),
       }),
-      canDrop: (item) => item.row !== row && containersInRow < 3,
+      canDrop: (item) => item.row !== row && containersInRow <= 3,
       drop: (item) => {
         changePosition(item?.id, row, col);
         return undefined;
       },
     },
-    [row, col]
+    [row, col, containersInRow]
   );
 
   const dropOverStyle = isOver && canDrop ? 'opacity-100 bg-purple-500' : '';

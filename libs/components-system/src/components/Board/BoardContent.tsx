@@ -18,12 +18,18 @@ function BoardContent() {
     <DndProvider backend={HTML5Backend}>
       <div
         ref={boardRef}
-        className="relative overflow-auto bg-gray-200 rounded-xl flex flex-col"
+        className="relative overflow-auto bg-gray-200 rounded-xl flex flex-col transition-all"
       >
         {containersLayout.map((rowContainer, row) => (
           <Fragment key={row}>
-            <HorizontalSeparator row={row} />
-            <div key={row} className="min-h-[200px] min-w-[200px] w-full flex">
+            <HorizontalSeparator
+              row={row}
+              containersInRow={rowContainer.length}
+            />
+            <div
+              key={row}
+              className="min-h-[200px] min-w-[200px] w-full flex transition-all"
+            >
               {rowContainer.map(({ id, name, Content, position }, col) => (
                 <Fragment key={id}>
                   <VerticalSeparator
@@ -51,7 +57,10 @@ function BoardContent() {
           </Fragment>
         ))}
         {areContainers ? (
-          <HorizontalSeparator row={containersLayout.length} />
+          <HorizontalSeparator
+            row={containersLayout.length}
+            containersInRow={containersLayout?.[0]?.length || 1}
+          />
         ) : null}
       </div>
     </DndProvider>

@@ -5,7 +5,12 @@ import { usePopupsActions } from '../../hooks/usePopups';
 import { DragTypes } from '../../utils/dragTypes';
 import { type DragItem } from '../../types/board.d';
 
-function HorizontalSeparator({ row }: { row: number }) {
+type Props = {
+  row: number;
+  containersInRow: number;
+};
+
+function HorizontalSeparator({ row, containersInRow }: Props) {
   const { changePosition } = usePopupsActions();
 
   const [{ isOver, canDrop }, dropRef] = useDrop<
@@ -19,13 +24,15 @@ function HorizontalSeparator({ row }: { row: number }) {
         isOver: Boolean(monitor.isOver()),
         canDrop: Boolean(monitor.canDrop()),
       }),
-      canDrop: (item) => item.row !== row && item.row + 1 !== row,
+      canDrop: (item) =>
+        (item.row !== row && item.row + 1 !== row) ||
+        (item.row !== row && containersInRow >= 1),
       drop: (item) => {
         changePosition(item?.id, row);
         return undefined;
       },
     },
-    [row]
+    [row, containersInRow]
   );
 
   const dropOverStyle = isOver && canDrop ? 'opacity-100 bg-purple-500' : '';
