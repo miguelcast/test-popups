@@ -4,13 +4,39 @@ URL: https://test-popups.vercel.app/
 
 https://github.com/miguelcast/test-popups/assets/6609142/a581862d-78ca-4e9d-ae25-2f7947723536
 
-## Start the application
+## Folder structure
 
-Run `pnpx nx serve web` to start the development server. Happy coding!
+```md
+Root
+├── apps
+│   └── web               # Main web project with Vite
+└── libs
+    ├── components-system # Project with vite, components
+    ├── component-a       # Project Vite Component
+    └── component-b       # Project Vite Component
+
+```
+
+## Technologies
+
+- Vite
+- Nx
+- PNPM
+- React
+- Prettier
+- ESLINT
+- Typescript
+- Zustand
+
+## Start the application
+Before run you must install the dependencies running: `pnpm install`
+
+Run `pnpx nx serve web` to start the development server.
 
 ## Build for production
 
-Run `pnpx nx run web:build` to build the application. The build artifacts are stored in the output directory (`dist/apps/web`), ready to be deployed.
+Run `pnpx nx run web:build` to build the application.
+The build artifacts are stored in the output directory (`dist/apps/web`), ready to be deployed.
 
 ## CI
 
