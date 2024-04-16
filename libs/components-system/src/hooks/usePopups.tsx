@@ -1,5 +1,6 @@
 import { useBoardStore } from './useBoardStore';
 import type { ContainerConfig } from '../types/board.d';
+import { sorterContainers } from '../utils/sortContainers';
 
 function generateUniqueId(): string {
   return '_' + Math.random().toString(36).substr(2, 9);
@@ -16,6 +17,7 @@ export function usePopupsActions() {
   const addContainer = useBoardStore((store) => store.addContainer);
   const removeContainer = useBoardStore((store) => store.removeContainer);
   const clearContainers = useBoardStore((store) => store.clearContainers);
+  const changePosition = useBoardStore((store) => store.changePosition);
 
   function addContainerHandler(containerBase: ContainerConfig) {
     const newContainer = generateContainer(containerBase);
@@ -32,12 +34,16 @@ export function usePopupsActions() {
     removeContainer,
     addContainer: addContainerHandler,
     clearContainers: clearContainerHandler,
+    changePosition: changePosition,
   };
 }
 
 export function usePopupsContainer() {
   const containers = useBoardStore((store) => store.containers);
+  const containersLayout = useBoardStore((store) =>
+    sorterContainers(store.containers)
+  );
   const baseContainer = useBoardStore((store) => store.baseContainer);
 
-  return { containers, baseContainer };
+  return { containers, containersLayout, baseContainer };
 }
