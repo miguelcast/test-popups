@@ -1,4 +1,4 @@
-import { Containers } from '../types/board.d';
+import { Containers } from '../types/board';
 
 export function sorterContainers(containers: Containers): Containers[] {
   const sortedContainers: Containers[] = [];

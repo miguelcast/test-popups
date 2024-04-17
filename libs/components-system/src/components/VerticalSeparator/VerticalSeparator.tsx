@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 
 import { usePopupsActions } from '../../hooks/usePopups';
 import { DragTypes } from '../../utils/dragTypes';
-import { type DragItem } from '../../types/board.d';
+import { type DragItem } from '../../types/board';
 
 type Props = {
   row: number;

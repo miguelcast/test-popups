@@ -1,4 +1,4 @@
-import { type Containers } from '../types/board.d';
+import { type Containers } from '../types/board';
 
 export function updateContainerPosition(
   containersState: Containers,
@@ -11,7 +11,7 @@ export function updateContainerPosition(
     (container) => container.id === id
   );
   const containerToMove = {
-    ...newContainers[containerToMoveIndex],
+    ...containersState[containerToMoveIndex],
     position: { ...newContainers[containerToMoveIndex].position },
   };
 

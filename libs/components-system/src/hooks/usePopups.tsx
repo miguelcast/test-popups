@@ -1,16 +1,11 @@
 import { useBoardStore } from './useBoardStore';
-import type { ContainerConfig } from '../types/board.d';
+import type { ContainerConfig } from '../types/board';
 import { sorterContainers } from '../utils/sortContainers';
+import { generateUniqueId } from '../utils/generateUniqueId';
 
-function generateUniqueId(): string {
-  return '_' + Math.random().toString(36).substr(2, 9);
-}
-
-function generateContainer(container: ContainerConfig): ContainerConfig {
-  return {
-    ...container,
-    id: `${container.id}_${generateUniqueId()}`,
-  };
+function containerFactory(container: ContainerConfig): ContainerConfig {
+  const id = `${container.id}_${generateUniqueId()}`;
+  return { ...container, id };
 }
 
 export function usePopupsActions() {
@@ -20,7 +15,7 @@ export function usePopupsActions() {
   const changePosition = useBoardStore((store) => store.changePosition);
 
   function addContainerHandler(containerBase: ContainerConfig) {
-    const newContainer = generateContainer(containerBase);
+    const newContainer = containerFactory(containerBase);
     addContainer(newContainer);
   }
 
@@ -43,7 +38,18 @@ export function usePopupsContainer() {
   const containersLayout = useBoardStore((store) =>
     sorterContainers(store.containers)
   );
-  const baseContainer = useBoardStore((store) => store.baseContainer);
 
-  return { containers, containersLayout, baseContainer };
+  return { containers, containersLayout: containersLayout };
+}
+
+export function usePopupsBaseContainers() {
+  const baseContainer = useBoardStore((store) => store.baseContainer);
+  return { baseContainer };
+}
+
+export function usePopupsContainerById(id: string) {
+  const container = useBoardStore((store) =>
+    store.containers.find((c) => c.id === id)
+  );
+  return { container };
 }

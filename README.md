@@ -27,6 +27,8 @@ Root
 - ESLINT
 - Typescript
 - Zustand
+- TailWind
+- Github Actions
 
 ## Start the application
 Before run you must install the dependencies running: `pnpm install`

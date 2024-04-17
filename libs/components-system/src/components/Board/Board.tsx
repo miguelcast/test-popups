@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { BoardStoreProvider } from '../../providers/BoardStoreProvider';
-import BoardContent from './BoardContent';
-import BoardHeader from './BoardHeader';
+import BoardContent from './ui/BoardContent';
+import BoardHeader from './ui/BoardHeader';
 import { ContainerConfig } from '../../types/board';
 
 interface Props {

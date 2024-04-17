@@ -26,7 +26,10 @@ export const createBoardStore = (initialState: Containers) =>
       set((state) => ({
         containers: [
           ...state.containers,
-          { ...container, position: { row: state.containers.length, col: 0 } },
+          {
+            ...container,
+            position: { row: state.containers.length, col: 0 },
+          },
         ],
       })),
     removeContainer: (id) =>

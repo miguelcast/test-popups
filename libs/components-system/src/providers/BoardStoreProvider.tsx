@@ -2,7 +2,7 @@ import { createContext, type ReactNode, useRef } from 'react';
 import { type StoreApi } from 'zustand';
 
 import { type BoardStore, createBoardStore } from '../store/board.store';
-import type { Containers } from '../types/board.d';
+import type { Containers } from '../types/board';
 
 export const BoardStoreContext = createContext<StoreApi<BoardStore> | null>(
   null
