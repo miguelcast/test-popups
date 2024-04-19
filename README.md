@@ -2,7 +2,7 @@
 
 URL: https://test-popups.vercel.app/
 
-https://github.com/miguelcast/test-popups/assets/6609142/a581862d-78ca-4e9d-ae25-2f7947723536
+https://github.com/miguelcast/test-popups/assets/6609142/f06a6758-a893-4171-a0ce-dba928412c83
 
 ## Folder structure
 
