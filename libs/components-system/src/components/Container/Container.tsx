@@ -1,4 +1,4 @@
-import React, { memo, type ReactNode, useRef } from 'react';
+import React, { memo, ReactNode, Suspense, useRef } from 'react';
 import { useDrag, DragPreviewImage } from 'react-dnd';
 
 import { type ContainerWithIdName } from '../../types/board';
@@ -11,20 +11,23 @@ type Props = {
   row: number;
   col: number;
   boardRef: HTMLDivElement | null;
-  render: (id: string) => JSX.Element | null;
+  children: ReactNode;
 } & ContainerWithIdName;
 
-function Container({ id, name, row, col, boardRef, render }: Props) {
+function Container({ id, name, row, col, boardRef, children }: Props) {
   const { removeContainer } = usePopupsActions();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const [{ isDragging }, dragRef, preview] = useDrag(() => ({
-    type: DragTypes.CONTAINER,
-    item: { id, row, col },
-    collect: (monitor) => ({
-      isDragging: Boolean(monitor.isDragging()),
+  const [{ isDragging }, dragRef, preview] = useDrag(
+    () => ({
+      type: DragTypes.CONTAINER,
+      item: { id, row, col },
+      collect: (monitor) => ({
+        isDragging: Boolean(monitor.isDragging()),
+      }),
     }),
-  }));
+    [id, col, row]
+  );
 
   const { separatorProps } = useResize(containerRef, boardRef);
 
@@ -44,7 +47,7 @@ function Container({ id, name, row, col, boardRef, render }: Props) {
         ref={setRefs}
         data-id={id}
         draggable
-        className={`relative overflow-clip min-h-full  flex-1 flex flex-col rounded-xl bg-[#ffffffcc] ${dragContainerStyles}`}
+        className={`relative overflow-clip min-h-full flex-1 flex flex-col rounded-xl bg-[#ffffffcc] ${dragContainerStyles}`}
       >
         <div className="py-1 px-4 flex items-center justify-between bg-gradient-to-r from-gray-900 from-10% to-gray-800 from-90% cursor-grab active:cursor-grabbing">
           <h2 className="font-bold text-white">{name}</h2>
@@ -58,7 +61,9 @@ function Container({ id, name, row, col, boardRef, render }: Props) {
             </button>
           </div>
         </div>
-        <div className="w-full flex-1 overflow-auto">{render(id)}</div>
+        <div className="w-full flex-1 overflow-auto">
+          <Suspense fallback={'Loading...'}>{children}</Suspense>
+        </div>
         <div
           {...separatorProps}
           className="group absolute -bottom-1 w-full h-2 cursor-row-resize flex items-center justify-center"

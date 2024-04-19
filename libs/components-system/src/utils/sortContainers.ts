@@ -1,22 +1,12 @@
 import { Containers } from '../types/board';
+import { sorterContainersByRowCol } from './sorterContainersByRowCol';
 
-export function sorterContainers(containers: Containers): Containers[] {
-  const sortedContainers: Containers[] = [];
+export function sorterContainers(containers: Containers) {
+  return sorterContainersByRowCol(containers).map((container) => {
+    const containerInRow = containers.reduce((count, c): number => {
+      return c.position.row === container.position.row ? count + 1 : count;
+    }, 0);
 
-  for (const container of containers) {
-    const row = container.position?.row ?? sortedContainers.length;
-    const col = container.position?.col;
-
-    if (!sortedContainers[row]) {
-      sortedContainers[row] = [];
-    }
-
-    if (col === undefined || sortedContainers[row][col] === undefined) {
-      sortedContainers[row][col ?? sortedContainers[row].length] = container;
-    } else {
-      sortedContainers[row].push(container);
-    }
-  }
-
-  return sortedContainers;
+    return { ...container, size: { w: containerInRow } };
+  });
 }

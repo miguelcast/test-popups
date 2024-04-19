@@ -1,39 +1,59 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo } from 'react';
 import { VerticalSeparator } from '../../VerticalSeparator';
-import { Container } from '@test-popups/components-system';
 import { usePopupsContainerById } from '../../../hooks/usePopups';
+import Container from '../../Container/Container';
 
 type Props = {
   id: string;
+  row: number;
+  col: number;
   boardRef: HTMLDivElement | null;
   containersInRow: number;
+  showRightSeparator: boolean;
 };
 
-function ContainerWithSeparators({ id, boardRef, containersInRow }: Props) {
-  const { container: { position, name, Content } = {} } =
-    usePopupsContainerById(id);
+const styleWidths = ['w-full', 'w-full', 'w-1/2', 'w-1/3', 'w-1/4'];
 
-  const render = useCallback(
-    (id: string) => (Content ? <Content key={id} /> : null),
-    []
-  );
+function ContainerWithSeparators({
+  id,
+  row,
+  col,
+  boardRef,
+  containersInRow,
+  showRightSeparator,
+}: Props) {
+  const { container } = usePopupsContainerById(id);
+
+  const containerWidthStyle = styleWidths?.[containersInRow] ?? styleWidths[0];
+
+  const Content = container?.Content;
 
   return (
-    <>
+    <div className={`min-w-[200px] h-[200px] ${containerWidthStyle} flex`}>
       <VerticalSeparator
-        row={position?.row || 0}
-        col={position?.col || 0}
+        id={id}
+        row={row || 0}
+        col={col || 0}
         containersInRow={containersInRow}
       />
       <Container
         id={id}
-        name={name || ''}
-        row={position?.row || 0}
-        col={position?.col || 0}
+        name={container?.name || ''}
+        row={row || 0}
+        col={col || 0}
         boardRef={boardRef}
-        render={render}
-      />
-    </>
+      >
+        {!!Content && <Content />}
+      </Container>
+      {showRightSeparator && (
+        <VerticalSeparator
+          id={id}
+          row={row || 0}
+          col={(col ?? 0) + 1 || 0}
+          containersInRow={containersInRow}
+        />
+      )}
+    </div>
   );
 }
 

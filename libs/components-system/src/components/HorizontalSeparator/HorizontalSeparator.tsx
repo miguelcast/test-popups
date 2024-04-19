@@ -6,11 +6,12 @@ import { DragTypes } from '../../utils/dragTypes';
 import { type DragItem } from '../../types/board';
 
 type Props = {
+  id: string;
   row: number;
   containersInRow: number;
 };
 
-function HorizontalSeparator({ row, containersInRow }: Props) {
+function HorizontalSeparator({ id, row, containersInRow }: Props) {
   const { changePosition } = usePopupsActions();
 
   const [{ isOver, canDrop }, dropRef] = useDrop<
@@ -32,7 +33,7 @@ function HorizontalSeparator({ row, containersInRow }: Props) {
         return undefined;
       },
     },
-    [row, containersInRow]
+    [id, row, containersInRow]
   );
 
   const dropOverStyle = isOver && canDrop ? 'opacity-100 bg-purple-500' : '';

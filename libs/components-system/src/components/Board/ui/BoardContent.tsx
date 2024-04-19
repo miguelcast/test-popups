@@ -5,7 +5,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { usePopupsContainer } from '../../../hooks/usePopups';
 
 import { HorizontalSeparator } from '../../HorizontalSeparator';
-import { VerticalSeparator } from '../../VerticalSeparator';
 import ContainerWithSeparators from './ContainerWithSeparators';
 
 function BoardContent() {
@@ -16,42 +15,46 @@ function BoardContent() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div
-        ref={boardRef}
-        className="relative overflow-auto bg-gray-700 rounded-xl flex flex-col transition-all"
-      >
-        <Suspense fallback={'Loading...'}>
-          {containersLayout.map((rowContainer, row) => (
-            <Fragment key={rowContainer.reduce((key, c) => key + c.id, 'row_')}>
-              <HorizontalSeparator
-                row={row}
-                containersInRow={rowContainer.length}
-              />
-              <div className="min-h-[200px] min-w-[200px] w-full flex transition-all">
-                {rowContainer.map((container) => (
-                  <ContainerWithSeparators
-                    key={container.id}
+      <Suspense fallback={'Loading...'}>
+        <div
+          ref={boardRef}
+          className="relative overflow-auto bg-gray-700 rounded-xl flex w-full flex-wrap content-start transition-all"
+        >
+          {containersLayout.map((container) => {
+            return (
+              <Fragment key={`item_${container.id}`}>
+                {container.position.col === 0 && (
+                  <HorizontalSeparator
                     id={container.id}
-                    containersInRow={rowContainer.length}
-                    boardRef={boardRef.current}
+                    row={container.position?.row}
+                    containersInRow={container.size.w}
                   />
-                ))}
-                <VerticalSeparator
-                  row={row}
-                  col={rowContainer.length}
-                  containersInRow={rowContainer.length}
+                )}
+                <ContainerWithSeparators
+                  id={container.id}
+                  row={container.position.row}
+                  col={container.position.col}
+                  containersInRow={container.size.w}
+                  boardRef={boardRef.current}
+                  showRightSeparator={
+                    container.size.w - 1 === container.position.col
+                  }
                 />
-              </div>
-            </Fragment>
-          ))}
+              </Fragment>
+            );
+          })}
           {hasContainers ? (
             <HorizontalSeparator
-              row={containersLayout.length}
-              containersInRow={containersLayout?.[0]?.length || 1}
+              id="last"
+              row={
+                Math.max(...containersLayout.map((c) => c.position?.row ?? 0)) +
+                1
+              }
+              containersInRow={1}
             />
           ) : null}
-        </Suspense>
-      </div>
+        </div>
+      </Suspense>
     </DndProvider>
   );
 }

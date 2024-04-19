@@ -3,19 +3,19 @@ import type { Containers, ContainerConfig } from '../types/board';
 import { updateContainerPosition } from '../utils/updateContainerPosition';
 import { removeContainerPosition } from '../utils/removeContainerPosition';
 
-type State = {
+type BoardState = {
   containers: Containers;
   baseContainer: Containers;
 };
 
-type Action = {
+export type BoardActions = {
   addContainer: (container: ContainerConfig) => void;
   removeContainer: (id: string) => void;
   clearContainers: () => void;
   changePosition: (id: string, row: number, col?: number) => void;
 };
 
-export type BoardStore = State & Action;
+export type BoardStore = BoardState & BoardActions;
 
 export const createBoardStore = (initialState: Containers) =>
   create<BoardStore>()((set) => ({
