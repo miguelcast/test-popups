@@ -1,9 +1,6 @@
-import { memo, useMemo, useState } from 'react';
+import { memo, useState } from 'react';
 
-function getRandomHexColor() {
-  const randomHex = Math.floor(Math.random() * 16777215).toString(16);
-  return '#' + '0'.repeat(6 - randomHex.length) + randomHex;
-}
+import { getRandomHexColor } from '../utils/getRandomHexColor';
 
 export function ComponentA() {
   const [color] = useState(() => getRandomHexColor());

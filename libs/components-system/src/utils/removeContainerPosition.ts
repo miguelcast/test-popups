@@ -1,4 +1,4 @@
-import { Containers } from '../types/board.d';
+import { Containers } from '../types/board';
 
 export function removeContainerPosition(
   id: string,

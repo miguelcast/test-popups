@@ -1,12 +1,10 @@
 import { render, fireEvent, screen } from '@testing-library/react';
 
 import Board from './Board';
-import { memo } from 'react';
-import { Containers } from '../../types/board.d';
+import { Containers } from '../../types/board';
 
-const ComponentA = memo(() => <h1>H1 Board Test A</h1>);
-
-const ComponentB = memo(() => <h1>H1 Board Test B</h1>);
+const ComponentA = () => <h1>H1 Board Test A</h1>;
+const ComponentB = () => <h1>H1 Board Test B</h1>;
 
 const containersMock: Containers = [
   {
@@ -26,13 +24,14 @@ const containersMock: Containers = [
 describe('Board', () => {
   it('should render successfully', async () => {
     render(<Board containersConfig={containersMock} />);
-    screen.getByText('Add(A)');
+    screen.getByText('Add A');
+    screen.getByText('Add B');
   });
 
   it('should add popups', async () => {
     render(<Board containersConfig={containersMock} />);
 
-    const addButtonA = screen.getByText('Add(A)');
+    const addButtonA = screen.getByText('Add A');
     fireEvent.click(addButtonA);
 
     await screen.findByText('H1 Board Test A');
@@ -41,7 +40,7 @@ describe('Board', () => {
   it('should close a popup', async () => {
     render(<Board containersConfig={containersMock} />);
 
-    const addButtonA = screen.getByText('Add(A)');
+    const addButtonA = screen.getByText('Add A');
     fireEvent.click(addButtonA);
 
     await screen.findByText('H1 Board Test A');

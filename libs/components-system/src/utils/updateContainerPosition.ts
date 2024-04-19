@@ -1,4 +1,5 @@
-import { type Containers } from '../types/board.d';
+import { type Containers } from '../types/board';
+import { sorterContainersByRowCol } from './sorterContainersByRowCol';
 
 export function updateContainerPosition(
   containersState: Containers,
@@ -11,18 +12,11 @@ export function updateContainerPosition(
     (container) => container.id === id
   );
   const containerToMove = {
-    ...newContainers[containerToMoveIndex],
+    ...containersState[containerToMoveIndex],
     position: { ...newContainers[containerToMoveIndex].position },
   };
 
-  newContainers.sort((containerA, containerB) => {
-    if (containerA.position?.row === containerB.position?.row) {
-      return (
-        Number(containerA.position?.col) - Number(containerB.position?.col)
-      );
-    }
-    return Number(containerA.position?.row) - Number(containerB.position?.row);
-  });
+  newContainers = sorterContainersByRowCol(newContainers);
 
   const fromColumn =
     containersState.filter((container) => {
@@ -95,6 +89,14 @@ export function updateContainerPosition(
 
       if (col === undefined && fromColumn && container.position.row >= row) {
         container.position.row += 1;
+      } else if (
+        col === undefined &&
+        fromColumn &&
+        containerToMove.position.row === container.position.row &&
+        container.position.col >= containerToMove.position.col &&
+        container.position.col > 0
+      ) {
+        container.position.col -= 1;
       }
 
       return container;

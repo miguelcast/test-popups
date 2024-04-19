@@ -3,15 +3,16 @@ import { useDrop } from 'react-dnd';
 
 import { usePopupsActions } from '../../hooks/usePopups';
 import { DragTypes } from '../../utils/dragTypes';
-import { type DragItem } from '../../types/board.d';
+import { type DragItem } from '../../types/board';
 
 type Props = {
+  id: string;
   row: number;
   col: number;
   containersInRow: number;
 };
 
-function VerticalSeparator({ row, col, containersInRow }: Props) {
+function VerticalSeparator({ id, row, col, containersInRow }: Props) {
   const { changePosition } = usePopupsActions();
 
   const [{ isOver, canDrop }, dropRef] = useDrop<
@@ -31,7 +32,7 @@ function VerticalSeparator({ row, col, containersInRow }: Props) {
         return undefined;
       },
     },
-    [row, col, containersInRow]
+    [id, row, col, containersInRow]
   );
 
   const dropOverStyle = isOver && canDrop ? 'opacity-100 bg-purple-500' : '';
